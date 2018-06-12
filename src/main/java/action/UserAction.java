@@ -8,6 +8,8 @@ import service.AppService;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class UserAction extends BaseAction {
     private static final long serialVersionUID = 1L;
@@ -108,5 +110,34 @@ public class UserAction extends BaseAction {
         out.flush();
         out.close();
         return null;
+    }
+
+    public String queryAllUsers() throws Exception{
+        List<User> res=appService.getAllUsers();
+        Iterator it = res.iterator();
+        PrintWriter out = response().getWriter();
+        ArrayList<JSONArray> qJ= new ArrayList<JSONArray>();
+        while (it.hasNext()) {
+
+            User u=(User)it.next();
+            if (u.getId()==111111) continue;
+            ArrayList<String> arrayList = new ArrayList<String>();
+            arrayList.add(String.valueOf(u.getId()));
+            arrayList.add(u.getUsername());
+            arrayList.add(u.getEmail());
+            arrayList.add(u.getPhone());
+            qJ.add(JSONArray.fromObject(arrayList));
+        }
+        JSONArray q=JSONArray.fromObject(qJ.toArray());
+        out.println(q);
+        out.flush();
+        out.close();
+        return null;
+    }
+
+    public String deleteUser() throws Exception{
+       User u=appService.getUserById(id);
+       appService.deleteUser(u);
+       return null;
     }
 }

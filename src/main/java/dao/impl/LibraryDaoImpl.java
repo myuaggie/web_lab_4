@@ -35,6 +35,13 @@ public class LibraryDaoImpl extends HibernateDaoSupport implements LibraryDao {
         return ls;
     }
 
+    public List<UQ_Library> getAllLibrariesByQuestion(int questionId){
+        @SuppressWarnings("unchecked")
+        List<UQ_Library> ls = (List<UQ_Library>) getHibernateTemplate()
+                .find("from UQ_Library as l where l.question.id=?",questionId);
+        return ls;
+    }
+
     public List<UQ_Library> getAllLibraries(){
         @SuppressWarnings("unchecked")
         List<UQ_Library> ls = (List<UQ_Library>) getHibernateTemplate()

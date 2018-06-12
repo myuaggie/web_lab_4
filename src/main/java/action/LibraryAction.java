@@ -116,8 +116,17 @@ public class LibraryAction extends BaseAction {
             arrayList.add(String.valueOf(lib.getDate()));
             arrayList.add(String.valueOf(lib.getQuestion().getOwner().getId()));
             arrayList.add(String.valueOf(lib.getQuestion().getOwner().getUsername()));
-            arrayList.add(String.valueOf(lib.getQuestion().getContent()));
-            arrayList.add(String.valueOf(lib.getQuestion().getReference()));
+            MongoClient mongoClient = new MongoClient();
+            DB database = mongoClient.getDB("wrong_set");
+            DBCollection collection = database.getCollection("questions");
+            DBObject qry = new BasicDBObject("question_id",lib.getQuestion().getId());
+            DBObject obj=collection.findOne(qry);
+            arrayList.add(String.valueOf(obj.get("content")));
+            arrayList.add(String.valueOf(obj.get("reference")));
+            database=null;
+            mongoClient.close();
+            //arrayList.add(String.valueOf(lib.getQuestion().getContent()));
+            //arrayList.add(String.valueOf(lib.getQuestion().getReference()));
             arrayList.add(String.valueOf(lib.getQuestion().getId()));
             qJ.add(JSONArray.fromObject(arrayList));
         }
@@ -143,8 +152,17 @@ public class LibraryAction extends BaseAction {
             arrayList.add(String.valueOf(lib.getDate()));
             arrayList.add(String.valueOf(lib.getQuestion().getOwner().getId()));
             arrayList.add(String.valueOf(lib.getQuestion().getOwner().getUsername()));
-            arrayList.add(String.valueOf(lib.getQuestion().getContent()));
-            arrayList.add(String.valueOf(lib.getQuestion().getReference()));
+            MongoClient mongoClient = new MongoClient();
+            DB database = mongoClient.getDB("wrong_set");
+            DBCollection collection = database.getCollection("questions");
+            DBObject qry = new BasicDBObject("question_id",lib.getQuestion().getId());
+            DBObject obj=collection.findOne(qry);
+            arrayList.add(String.valueOf(obj.get("content")));
+            arrayList.add(String.valueOf(obj.get("reference")));
+            database=null;
+            mongoClient.close();
+            //arrayList.add(String.valueOf(lib.getQuestion().getContent()));
+            //arrayList.add(String.valueOf(lib.getQuestion().getReference()));
             qJ.add(JSONArray.fromObject(arrayList));
         }
         JSONArray q=JSONArray.fromObject(qJ.toArray());
@@ -311,4 +329,6 @@ public class LibraryAction extends BaseAction {
         out.println(JSONArray.fromObject(arrayList));
         return null;
     }
+
+
 }

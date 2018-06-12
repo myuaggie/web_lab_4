@@ -258,7 +258,7 @@ var WrongLog=React.createClass(
         saveAddName: function(e){
             this.addName=e.target.value;
             var pop;
-            if (this.addName="" || this.addName.length>30){
+            if (this.addName==="" || this.addName.length>30){
                 pop=document.getElementById("namehint");
                 pop.style.display="inline-block";
             }

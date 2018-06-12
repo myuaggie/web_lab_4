@@ -29,6 +29,8 @@ public interface AppService {
 
     public Question getQuestionById(int id);
 
+    public List<UQ_Library> getAllLibrariesByQuestion(int questionId);
+
     public List<Question> getAllQuestions();
 
 

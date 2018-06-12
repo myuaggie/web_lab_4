@@ -16,5 +16,7 @@ public interface LibraryDao {
 
     public List<UQ_Library> getAllLibrariesById(int id);
 
+    public List<UQ_Library> getAllLibrariesByQuestion(int questionId);
+
     public List<UQ_Library> getAllLibraries();
 }

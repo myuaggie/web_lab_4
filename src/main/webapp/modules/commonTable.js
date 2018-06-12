@@ -101,6 +101,12 @@ var CommonSet = React.createClass({
         this.setState({showRef:false});
     },
 
+    showContent: function(){
+        var c=document.getElementById("detailContent");
+        c.innerHTML=this.state.data[this.state.detailData][7];
+    },
+
+
     render: function() {
         return (
             <div>
@@ -153,7 +159,8 @@ var CommonSet = React.createClass({
                         <p id="detailOwner">contributor: {this.state.data[this.state.detailData][6]}</p>
                         <p id="detailDate">updated: {this.state.data[this.state.detailData][4]}</p>
                         <button onClick={this._back}>back</button>
-                        <p id="detailContent">{this.state.data[this.state.detailData][7]}</p>
+                        <p id="detailContent">show content<button onClick={this.showContent}>+</button></p>
+
                         {this._renderRefBtn()}
                         {this._renderRef()}
                     </div>
@@ -203,3 +210,4 @@ var CommonSet = React.createClass({
 });
 
 export default CommonSet;
+//<p id="detailContent">{this.state.data[this.state.detailData][7]}</p>

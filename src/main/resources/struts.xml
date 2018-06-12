@@ -20,6 +20,12 @@
         <action name="querySessionUser" class="action.UserAction" method="querySessionUser">
 
         </action>
+        <action name="queryAllUsers" class="action.UserAction" method="queryAllUsers">
+
+        </action>
+        <action name="deleteUser" class="action.UserAction" method="deleteUser">
+
+        </action>
         
         <action name="queryUserLibraries" class="action.LibraryAction" method="queryUserLibraries">
 
@@ -59,6 +65,16 @@
 
         </action>
         <action name="queryRecordDetails" class="action.RecordAction" method="queryRecordDetails">
+
+        </action>
+
+        <action name="queryCountAll" class="action.CountAction" method="queryCountAll">
+
+        </action>
+        <action name="queryCountAllByUser" class="action.CountAction" method="queryCountAllByUser">
+
+        </action>
+        <action name="queryCountFre" class="action.CountAction" method="queryCountFre">
 
         </action>
     </package>

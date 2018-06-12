@@ -45,6 +45,15 @@ th {
 #delete{
     color:#2589bf;
 }
+
+#manageCommon,#manageUsers,#statistics,#countAll{
+    font-family:Georgia;
+    color: rgba(155, 93, 129, 0.85);
+    font-size: xx-large;
+    margin-left:40px;
+}
+
+
 .Toolbar {
     margin-left: 20px;
 }
@@ -109,6 +118,11 @@ th {
     background: #bd2a42;
     text-decoration: none;
 }
+
+#manageCommonBtn,#manageUsersBtn,#statisticsBtn,#statisticsSelect{
+    margin-left:40px;
+}
+
 
 #poplogin{
     font-family:Georgia;

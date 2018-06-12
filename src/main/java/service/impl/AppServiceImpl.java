@@ -92,6 +92,8 @@ public class AppServiceImpl implements AppService {
 
     public List<UQ_Library> getAllLibrariesById(int id){ return libraryDao.getAllLibrariesById(id); }
 
+    public List<UQ_Library> getAllLibrariesByQuestion(int questionId){ return libraryDao.getAllLibrariesByQuestion(questionId); }
+
     public List<UQ_Library> getAllLibraries(){
         return libraryDao.getAllLibraries();
     }
