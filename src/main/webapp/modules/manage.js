@@ -17,8 +17,11 @@ let Manager = React.createClass({
       else if (s.value==="countByUser"){
           hashHistory.push("/countByUser");
       }
-      else{
+      else if (s.value==="countFre"){
           hashHistory.push("/countFre");
+      }
+      else{
+          hashHistory.push("/countTags");
       }
     },
     render: function () {
@@ -37,7 +40,8 @@ let Manager = React.createClass({
                     <select id="statisticsSelect" >
                         <option value="countAll">total number of questions</option>
                         <option value="countByUser">users' number of questions</option>
-                        <option value="countFre">review frequency</option>
+                        <option value="countFre">view frequency</option>
+                        <option value="countTags">view tags</option>
                     </select>
                     <button className="Toolbar" id="statisticsBtn" onClick={this.handleSelect}>-></button>
                 </div>

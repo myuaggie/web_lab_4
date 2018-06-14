@@ -12,6 +12,7 @@ import ManageUser from "./modules/managerUser"
 import CountAll from "./modules/countAll"
 import CountByUser from "./modules/countByUser"
 import CountFre from "./modules/countFre"
+import CountTags from "./modules/countTags"
 render((
     <Router history={hashHistory}>
         <Route path="/" component={App}/>
@@ -24,5 +25,6 @@ render((
         <Route path="/countAll" component={CountAll}/>
         <Route path="/countByUser" component={CountByUser}/>
         <Route path="/countFre" component={CountFre}/>
+            <Route path="/countTags" component={CountTags}/>
     </Router>
 ), document.getElementById('app'))

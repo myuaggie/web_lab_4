@@ -82,6 +82,7 @@ public class RecordAction extends BaseAction {
        int owner=Integer.parseInt(request().getSession()
                .getAttribute("userid").toString());
        PrintWriter out = response().getWriter();
+       response().setContentType("text/html;charset=utf-8");
        Record r=appService.getRecordByKey(new URKey(owner,libraryId,recordId));
        //Blob blob=r.getAnswer();
        //String answer=new String(blob.getBytes((long)1, (int)blob.length()));

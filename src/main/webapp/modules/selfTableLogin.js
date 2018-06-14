@@ -70,9 +70,9 @@ var WrongLog=React.createClass(
             this.serverRequest=$.get('queryUserLibraries',function(data){
 
                 var temp=JSON.parse(data);
-                if (temp[0][0]==="-1"){
-                    temp=null;
-                }
+               // if (temp[0][0]==="-1"){
+                 //   temp=null;
+               // }
                 this.setState({
                     data:temp,
                     detail:false,
@@ -615,6 +615,9 @@ var WrongLog=React.createClass(
                         )
                     }
                 }*/
+                else if (this.state.self===true){
+                    return (<p id="loginHint">no questions yet, create one?</p>)
+                }
                 else if (this.state.common){
                     return (<CommonSet/>)
                 }

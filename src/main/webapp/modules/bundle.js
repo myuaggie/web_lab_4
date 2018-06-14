@@ -94,6 +94,10 @@
 
 	var _countFre2 = _interopRequireDefault(_countFre);
 
+	var _countTags = __webpack_require__(368);
+
+	var _countTags2 = _interopRequireDefault(_countTags);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -108,7 +112,8 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: '/manageUser', component: _managerUser2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/countAll', component: _countAll2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/countByUser', component: _countByUser2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/countFre', component: _countFre2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/countFre', component: _countFre2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/countTags', component: _countTags2.default })
 	), document.getElementById('app'));
 
 /***/ },
@@ -20041,6 +20046,10 @@
 	                this.setState({
 	                    loginPattern: 2
 	                });
+	            } else if (user[0] === "-2") {
+	                this.setState({
+	                    loginPattern: 4
+	                });
 	            } else {
 	                this.setState({
 	                    user: user,
@@ -20293,6 +20302,26 @@
 	                _react2.default.createElement(
 	                    'button',
 	                    { className: 'close', onClick: this.handleCloseLogin2 },
+	                    'close'
+	                )
+	            );
+	        } else if (this.state.loginPattern === 4) {
+	            return _react2.default.createElement(
+	                'div',
+	                { id: 'poplogin' },
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'your id is invalid'
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { onClick: this.changePatternLogin },
+	                    'try again'
+	                ),
+	                _react2.default.createElement(
+	                    'button',
+	                    { className: 'close', onClick: this.handleCloseLogin },
 	                    'close'
 	                )
 	            );
@@ -45018,9 +45047,9 @@
 	        this.serverRequest = $.get('queryUserLibraries', function (data) {
 
 	            var temp = JSON.parse(data);
-	            if (temp[0][0] === "-1") {
-	                temp = null;
-	            }
+	            // if (temp[0][0]==="-1"){
+	            //   temp=null;
+	            // }
 	            this.setState({
 	                data: temp,
 	                detail: false,
@@ -45676,7 +45705,13 @@
 	                    )
 	                }
 	            }*/
-	            else if (this.state.common) {
+	            else if (this.state.self === true) {
+	                    return _react2.default.createElement(
+	                        'p',
+	                        { id: 'loginHint' },
+	                        'no questions yet, create one?'
+	                    );
+	                } else if (this.state.common) {
 	                    return _react2.default.createElement(_commonTable2.default, null);
 	                }
 	        } else {
@@ -46149,8 +46184,10 @@
 	            _reactRouter.hashHistory.push("/countAll");
 	        } else if (s.value === "countByUser") {
 	            _reactRouter.hashHistory.push("/countByUser");
-	        } else {
+	        } else if (s.value === "countFre") {
 	            _reactRouter.hashHistory.push("/countFre");
+	        } else {
+	            _reactRouter.hashHistory.push("/countTags");
 	        }
 	    },
 	    render: function render() {
@@ -46209,7 +46246,12 @@
 	                    _react2.default.createElement(
 	                        'option',
 	                        { value: 'countFre' },
-	                        'review frequency'
+	                        'view frequency'
+	                    ),
+	                    _react2.default.createElement(
+	                        'option',
+	                        { value: 'countTags' },
+	                        'view tags'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -46250,7 +46292,7 @@
 	            descending: false,
 	            edit: null, // [row index, cell index],
 	            search: false,
-	            headers: ["id", "Username", "Email", "Phone"],
+	            headers: ["id", "Username", "Email", "Phone", "valid"],
 	            delete: false
 	        };
 	    },
@@ -46355,6 +46397,22 @@
 	        }.bind(this));
 	    },
 
+	    validUser: function validUser(e) {
+	        var id = e.target.id.substring(3);
+	        var info = { id: this.state.data[parseInt(id)][0] };
+	        this.serverRequest8 = $.post('validUser', info, function (data) {
+	            this._getUsers();
+	        }.bind(this));
+	    },
+
+	    invalidUser: function invalidUser(e) {
+	        var id = e.target.id.substring(3);
+	        var info = { id: this.state.data[parseInt(id)][0] };
+	        this.serverRequest9 = $.post('invalidUser', info, function (data) {
+	            this._getUsers();
+	        }.bind(this));
+	    },
+
 	    _renderToolbar: function _renderToolbar() {
 	        return _react2.default.createElement(
 	            'div',
@@ -46452,6 +46510,29 @@
 	                                                key: idx,
 	                                                'data-row': rowidx },
 	                                            content
+	                                        );
+	                                    }
+	                                }
+	                                if (idx === 4) {
+	                                    if (content === "true") {
+	                                        return _react2.default.createElement(
+	                                            'td',
+	                                            null,
+	                                            _react2.default.createElement(
+	                                                'button',
+	                                                { id: "tdv" + rowidx.toString(), onClick: this.invalidUser },
+	                                                'invalid'
+	                                            )
+	                                        );
+	                                    } else {
+	                                        return _react2.default.createElement(
+	                                            'td',
+	                                            null,
+	                                            _react2.default.createElement(
+	                                                'button',
+	                                                { id: "tdv" + rowidx.toString(), onClick: this.validUser },
+	                                                'valid'
+	                                            )
 	                                        );
 	                                    }
 	                                }
@@ -46897,6 +46978,190 @@
 	});
 
 	exports.default = CountFre;
+
+/***/ },
+/* 368 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CountTags = _react2.default.createClass({
+	    displayName: 'CountTags',
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            data: [],
+	            sortby: null,
+	            descending: false,
+	            search: false,
+	            headers: ["User ID", "Tags"]
+	        };
+	    },
+
+	    componentWillMount: function componentWillMount() {
+	        this._getCounts();
+	    },
+
+	    _getCounts: function _getCounts() {
+	        this.serverRequest = $.get('queryCountTags', function (data) {
+	            this.setState({
+	                data: JSON.parse(data)
+	            });
+	        }.bind(this));
+	    },
+
+	    _sort: function _sort(e) {
+	        var column = e.target.cellIndex;
+	        var data = this.state.data.slice();
+	        var descending = this.state.sortby === column && !this.state.descending;
+	        data.sort(function (a, b) {
+	            return descending ? a[column] < b[column] ? 1 : -1 : a[column] > b[column] ? 1 : -1;
+	        });
+	        this.setState({
+	            data: data,
+	            sortby: column,
+	            descending: descending
+	        });
+	    },
+
+	    _preSearchData: null,
+
+	    _toggleSearch: function _toggleSearch() {
+	        if (this.state.search) {
+	            this.setState({
+	                data: this._preSearchData,
+	                search: false
+	            });
+	            this._preSearchData = null;
+	        } else {
+	            this._preSearchData = this.state.data;
+	            this.setState({
+	                search: true
+	            });
+	        }
+	    },
+
+	    _search: function _search(e) {
+	        var needle = e.target.value.toLowerCase();
+	        if (!needle) {
+	            this.setState({ data: this._preSearchData });
+	            return;
+	        }
+	        var idx = e.target.dataset.idx;
+	        var searchdata = this._preSearchData.filter(function (row) {
+	            return row[idx].toString().toLowerCase().indexOf(needle) > -1;
+	        });
+	        this.setState({ data: searchdata });
+	    },
+
+	    _renderToolbar: function _renderToolbar() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'Mnpltbar' },
+	            _react2.default.createElement(
+	                'button',
+	                { onClick: this._toggleSearch },
+	                'Search'
+	            )
+	        );
+	    },
+
+	    _renderSearch: function _renderSearch() {
+	        if (!this.state.search) {
+	            return null;
+	        }
+	        return _react2.default.createElement(
+	            'tr',
+	            { onChange: this._search },
+	            this.state.headers.map(function (_ignore, idx) {
+	                return _react2.default.createElement(
+	                    'td',
+	                    { key: idx },
+	                    _react2.default.createElement('input', { type: 'text', 'data-idx': idx })
+	                );
+	            })
+	        );
+	    },
+
+	    _renderTable: function _renderTable() {
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	                'div',
+	                { id: 'managerTitle' },
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    ' counting the number of frequency by each question '
+	                )
+	            ),
+	            _react2.default.createElement(
+	                'table',
+	                null,
+	                _react2.default.createElement(
+	                    'thead',
+	                    { onClick: this._sort },
+	                    _react2.default.createElement(
+	                        'tr',
+	                        null,
+	                        this.state.headers.map(function (title, idx) {
+	                            if (this.state.sortby === idx) {
+	                                title += this.state.descending ? ' \u2191' : ' \u2193';
+	                            }
+	                            return _react2.default.createElement(
+	                                'th',
+	                                { key: idx },
+	                                title
+	                            );
+	                        }, this)
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'tbody',
+	                    null,
+	                    this._renderSearch(),
+	                    this.state.data.map(function (row, rowidx) {
+	                        return _react2.default.createElement(
+	                            'tr',
+	                            { key: rowidx },
+	                            row.map(function (cell, idx) {
+	                                var content = cell;
+	                                return _react2.default.createElement(
+	                                    'td',
+	                                    { key: idx, 'data-row': rowidx },
+	                                    content
+	                                );
+	                            }, this)
+	                        );
+	                    }, this)
+	                )
+	            )
+	        );
+	    },
+
+	    render: function render() {
+
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            this._renderToolbar(),
+	            this._renderTable()
+	        );
+	    }
+	});
+
+	exports.default = CountTags;
 
 /***/ }
 /******/ ]);

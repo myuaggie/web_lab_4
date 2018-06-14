@@ -233,6 +233,11 @@ var Wrong=React.createClass(
                             loginPattern:2
                         })
                     }
+                    else if (user[0]==="-2"){
+                        this.setState({
+                            loginPattern:4
+                        })
+                    }
                     else{
                         this.setState({
                             user:user,
@@ -457,6 +462,15 @@ var Wrong=React.createClass(
                     <div id="poplogin">
                         <p>hi,{this.state.user[1]}</p>
                         <button className="close" onClick={this.handleCloseLogin2}>close</button>
+                    </div>
+                )
+            }
+            else if (this.state.loginPattern===4){
+                return (
+                    <div id="poplogin">
+                        <p>your id is invalid</p>
+                        <button onClick={this.changePatternLogin}>try again</button>
+                        <button className="close" onClick={this.handleCloseLogin}>close</button>
                     </div>
                 )
             }

@@ -103,6 +103,7 @@ public class LibraryAction extends BaseAction {
 
     public String queryManagerLibraries() throws Exception{
         PrintWriter out = response().getWriter();
+        response().setContentType("text/html;charset=utf-8");
         List<UQ_Library> res=appService.getAllLibraries();
         Iterator it = res.iterator();
         ArrayList<JSONArray> qJ= new ArrayList<JSONArray>();
@@ -139,6 +140,7 @@ public class LibraryAction extends BaseAction {
 
     public String queryCommonLibraries() throws Exception{
         PrintWriter out = response().getWriter();
+        response().setContentType("text/html;charset=utf-8");
         List<UQ_Library> res=appService.getAllLibrariesById(111111);
         Iterator it = res.iterator();
         ArrayList<JSONArray> qJ= new ArrayList<JSONArray>();
@@ -305,6 +307,7 @@ public class LibraryAction extends BaseAction {
         int owner=Integer.parseInt(request().getSession()
                 .getAttribute("userid").toString());
         PrintWriter out = response().getWriter();
+        response().setContentType("text/html;charset=utf-8");
         UQ_Library l=appService.getLibraryByKey(new ULKey(owner,libraryId));
         ArrayList<String> arrayList = new ArrayList<String>();
         arrayList.add(l.getQuestion().getName());

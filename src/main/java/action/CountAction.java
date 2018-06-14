@@ -75,4 +75,38 @@ public class CountAction extends BaseAction{
         out.close();
         return null;
     }
+
+    public String queryCountTags() throws Exception{
+        List<User> res=appService.getAllUsers();
+        PrintWriter out = response().getWriter();
+        Iterator it = res.iterator();
+        ArrayList<JSONArray> qJ= new ArrayList<JSONArray>();
+        while (it.hasNext()) {
+            User u=(User)it.next();
+            if (u.getId()==111111) continue;
+            ArrayList<String> arrayList = new ArrayList<String>();
+            arrayList.add(String.valueOf(u.getId()));
+            List<UQ_Library> ls=appService.getAllLibrariesById(u.getId());
+            Iterator itt=ls.iterator();
+            String listt="";
+            while (itt.hasNext()){
+                UQ_Library l=(UQ_Library)itt.next();
+                if (!listt.contains(l.getTagOne())){
+                    listt+=l.getTagOne();
+                    listt+=" ";
+                }
+                if (!listt.contains(l.getTagTwo())){
+                    listt+=l.getTagTwo();
+                    listt+=" ";
+                }
+            }
+            arrayList.add(listt);
+            qJ.add(JSONArray.fromObject(arrayList));
+        }
+        JSONArray q=JSONArray.fromObject(qJ.toArray());
+        out.println(q);
+        out.flush();
+        out.close();
+        return null;
+    }
 }

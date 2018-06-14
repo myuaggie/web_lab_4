@@ -63,7 +63,12 @@ public class UserAction extends BaseAction {
         PrintWriter out = response().getWriter();
         User user=appService.getUserById(id);
         if (user!=null){
-            if (MD5Util.md5Encode(password).equals(user.getPassword())){
+            if (user.getValid()==false){
+                ArrayList<String> ur=new ArrayList<String>();
+                ur.add("-2");
+                out.println(JSONArray.fromObject(ur));
+            }
+            else if (MD5Util.md5Encode(password).equals(user.getPassword())){
                 HttpSession session=request().getSession();
                 session.setAttribute("userid",user.getId());
                 session.setAttribute("username",user.getUsername());
@@ -126,6 +131,7 @@ public class UserAction extends BaseAction {
             arrayList.add(u.getUsername());
             arrayList.add(u.getEmail());
             arrayList.add(u.getPhone());
+            arrayList.add(String.valueOf(u.getValid()));
             qJ.add(JSONArray.fromObject(arrayList));
         }
         JSONArray q=JSONArray.fromObject(qJ.toArray());
@@ -139,5 +145,19 @@ public class UserAction extends BaseAction {
        User u=appService.getUserById(id);
        appService.deleteUser(u);
        return null;
+    }
+
+    public String invalidUser() throws Exception{
+        User u=appService.getUserById(id);
+        u.setValid(false);
+        appService.updateUser(u);
+        return null;
+    }
+
+    public String validUser() throws Exception{
+        User u=appService.getUserById(id);
+        u.setValid(true);
+        appService.updateUser(u);
+        return null;
     }
 }

@@ -11,7 +11,7 @@ let ManageUser=React.createClass({
             descending: false,
             edit: null, // [row index, cell index],
             search: false,
-            headers : ["id", "Username", "Email", "Phone"],
+            headers : ["id", "Username", "Email", "Phone","valid"],
             delete:false
         };
     },
@@ -118,6 +118,22 @@ let ManageUser=React.createClass({
         }.bind(this));
     },
 
+    validUser:function(e){
+        var id=e.target.id.substring(3);
+        let info={id:this.state.data[parseInt(id)][0]};
+        this.serverRequest8=$.post('validUser',info,function(data){
+            this._getUsers();
+        }.bind(this));
+    },
+
+    invalidUser:function(e){
+        var id=e.target.id.substring(3);
+        let info={id:this.state.data[parseInt(id)][0]};
+        this.serverRequest9=$.post('invalidUser',info,function(data){
+            this._getUsers();
+        }.bind(this));
+    },
+
     _renderToolbar: function() {
         return (
             <div className="Mnpltbar" >
@@ -177,6 +193,14 @@ let ManageUser=React.createClass({
                                                        id={"tdu" + rowidx.toString() + idx.toString()}
                                                        key={idx}
                                                        data-row={rowidx}>{content}</td>
+                                        }
+                                    }
+                                    if (idx===4){
+                                        if (content==="true"){
+                                            return <td><button id={"tdv"+rowidx.toString()} onClick={this.invalidUser}>invalid</button></td>
+                                        }
+                                        else{
+                                            return <td><button id={"tdv"+rowidx.toString()} onClick={this.validUser}>valid</button></td>
                                         }
                                     }
                                     if (edit && edit.row === rowidx && edit.cell === idx) {

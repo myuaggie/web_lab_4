@@ -6,6 +6,7 @@ public class User {
     private String password;
     private String email;
     private String phone;
+    private boolean valid;
 
     public User(){}
     public User(String username,String password,String email,String phone){
@@ -29,4 +30,7 @@ public class User {
 
     public String getPhone(){return phone;}
     public void setPhone(String phone){this.phone=phone;}
+
+    public boolean getValid(){return valid;}
+    public void setValid(boolean valid){this.valid=valid;}
 }

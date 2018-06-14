@@ -26,7 +26,13 @@
         <action name="deleteUser" class="action.UserAction" method="deleteUser">
 
         </action>
-        
+        <action name="validUser" class="action.UserAction" method="validUser">
+
+        </action>
+        <action name="invalidUser" class="action.UserAction" method="invalidUser">
+
+        </action>
+
         <action name="queryUserLibraries" class="action.LibraryAction" method="queryUserLibraries">
 
         </action>
@@ -75,6 +81,9 @@
 
         </action>
         <action name="queryCountFre" class="action.CountAction" method="queryCountFre">
+
+        </action>
+        <action name="queryCountTags" class="action.CountAction" method="queryCountTags">
 
         </action>
     </package>
