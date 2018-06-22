@@ -17,12 +17,18 @@ var ManageSet = React.createClass({
             detailData: null,
             showRef:false,
             myData:null,
-            pop:null
+            pop:null,
+            delete:false
         };
     },
 
 
     componentWillMount:function(){
+       this.getLibrary();
+
+    },
+
+    getLibrary:function(){
         this.serverRequest21=$.get('queryManagerLibraries',function(data){
             var temp=JSON.parse(data);
             this.serverRequest22=$.get('queryUserLibraries',function(data){
@@ -45,7 +51,6 @@ var ManageSet = React.createClass({
                 });
             }.bind(this));
         }.bind(this));
-
     },
 
     toPop: function(e){
@@ -168,6 +173,32 @@ var ManageSet = React.createClass({
     },
 
 
+    //delete
+
+    showDelete: function(){
+        if (!this.state.delete) {
+            var pop = document.getElementsByClassName("deleteT");
+            for (var i=0;i<pop.length;i++){
+                pop[i].style.color = "#a1263b";
+            }
+        }
+        else{
+            var pop = document.getElementsByClassName("deleteT");
+            for (var i=0;i<pop.length;i++){pop[i].style.color = "#2589bf";}
+        }
+        this.setState({delete:!this.state.delete});
+    },
+
+    deleteTable: function(e){
+
+        let id=parseInt(e.target.id.substring(1));
+        let lid=this.state.data[id][0];
+        let uid=this.state.data[id][5];
+        let info={libraryId:lid,userId:uid};
+        this.serverRequest7=$.post('deleteLibrariesByUser',info,function(data){
+            this.getLibrary();
+        }.bind(this));
+    },
 
     render: function() {
         return (
@@ -258,6 +289,7 @@ var ManageSet = React.createClass({
                 <div>
                     <div className="Mnpltbar" >
                         <button onClick={this._toggleSearch}>Search</button>
+                        <button onClick={this.showDelete}>Delete</button>
                     </div>
                     <div id="managerTitle">
                         <p> manage user libraries </p>
@@ -280,6 +312,20 @@ var ManageSet = React.createClass({
                                 <tr key={rowidx}>{
                                     row.map(function(cell, idx) {
                                         var content = cell;
+                                        if (idx===0){
+                                            if (this.state.delete===true) {
+                                                return <td className="deleteT"
+                                                           id={"z" + rowidx.toString()}
+                                                           onClick={this.deleteTable} key={idx}
+                                                           data-row={rowidx}>{content}</td>
+                                            }
+                                            else{
+                                                return <td className="deleteT"
+                                                           id={"z" + rowidx.toString()}
+                                                           key={idx}
+                                                           data-row={rowidx}>{content}</td>
+                                            }
+                                        }
                                         if (idx===3){
                                             if (this.state.pop[rowidx]===1){
                                                 return <td className="popular" key={idx} data-row={rowidx} id={"h"+rowidx.toString()} onClick={this.toUnPop}>&hearts;</td>;

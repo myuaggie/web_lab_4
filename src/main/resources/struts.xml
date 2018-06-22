@@ -48,6 +48,9 @@
         <action name="deleteLibraries" class="action.LibraryAction" method="deleteLibraries">
 
         </action>
+        <action name="deleteLibrariesByUser" class="action.LibraryAction" method="deleteLibrariesByUser">
+
+        </action>
         <action name="updateQuestions" class="action.LibraryAction" method="updateQuestions">
 
         </action>

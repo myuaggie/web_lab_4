@@ -45758,11 +45758,16 @@
 	            detailData: null,
 	            showRef: false,
 	            myData: null,
-	            pop: null
+	            pop: null,
+	            delete: false
 	        };
 	    },
 
 	    componentWillMount: function componentWillMount() {
+	        this.getLibrary();
+	    },
+
+	    getLibrary: function getLibrary() {
 	        this.serverRequest21 = $.get('queryManagerLibraries', function (data) {
 	            var temp = JSON.parse(data);
 	            this.serverRequest22 = $.get('queryUserLibraries', function (data) {
@@ -45901,6 +45906,34 @@
 	        var ref = document.getElementById("referenceCom");
 	        ref.style.display = "none";
 	        this.setState({ showRef: false });
+	    },
+
+	    //delete
+
+	    showDelete: function showDelete() {
+	        if (!this.state.delete) {
+	            var pop = document.getElementsByClassName("deleteT");
+	            for (var i = 0; i < pop.length; i++) {
+	                pop[i].style.color = "#a1263b";
+	            }
+	        } else {
+	            var pop = document.getElementsByClassName("deleteT");
+	            for (var i = 0; i < pop.length; i++) {
+	                pop[i].style.color = "#2589bf";
+	            }
+	        }
+	        this.setState({ delete: !this.state.delete });
+	    },
+
+	    deleteTable: function deleteTable(e) {
+
+	        var id = parseInt(e.target.id.substring(1));
+	        var lid = this.state.data[id][0];
+	        var uid = this.state.data[id][5];
+	        var info = { libraryId: lid, userId: uid };
+	        this.serverRequest7 = $.post('deleteLibrariesByUser', info, function (data) {
+	            this.getLibrary();
+	        }.bind(this));
 	    },
 
 	    render: function render() {
@@ -46066,6 +46099,11 @@
 	                        'button',
 	                        { onClick: this._toggleSearch },
 	                        'Search'
+	                    ),
+	                    _react2.default.createElement(
+	                        'button',
+	                        { onClick: this.showDelete },
+	                        'Delete'
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -46108,6 +46146,27 @@
 	                                { key: rowidx },
 	                                row.map(function (cell, idx) {
 	                                    var content = cell;
+	                                    if (idx === 0) {
+	                                        if (this.state.delete === true) {
+	                                            return _react2.default.createElement(
+	                                                'td',
+	                                                { className: 'deleteT',
+	                                                    id: "z" + rowidx.toString(),
+	                                                    onClick: this.deleteTable, key: idx,
+	                                                    'data-row': rowidx },
+	                                                content
+	                                            );
+	                                        } else {
+	                                            return _react2.default.createElement(
+	                                                'td',
+	                                                { className: 'deleteT',
+	                                                    id: "z" + rowidx.toString(),
+	                                                    key: idx,
+	                                                    'data-row': rowidx },
+	                                                content
+	                                            );
+	                                        }
+	                                    }
 	                                    if (idx === 3) {
 	                                        if (this.state.pop[rowidx] === 1) {
 	                                            return _react2.default.createElement(
@@ -47103,7 +47162,7 @@
 	                _react2.default.createElement(
 	                    'p',
 	                    null,
-	                    ' counting the number of frequency by each question '
+	                    ' viewing tags by each user '
 	                )
 	            ),
 	            _react2.default.createElement(

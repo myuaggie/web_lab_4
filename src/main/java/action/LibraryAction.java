@@ -28,6 +28,7 @@ public class LibraryAction extends BaseAction {
     private boolean frequency;
     private boolean date;
     private int questionId;
+    private int userId;
 
     public void setAppService(AppService appService){
         this.appService=appService;
@@ -59,6 +60,9 @@ public class LibraryAction extends BaseAction {
 
     public int getQuestionId() { return questionId; }
     public void setQuestionId(int questionId) { this.questionId = questionId; }
+
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
 
     public String queryUserLibraries() throws Exception{
         Object o= request().getSession().getAttribute("userid");
@@ -241,6 +245,20 @@ public class LibraryAction extends BaseAction {
         return null;
     }
 
+    public String deleteLibrariesByUser() throws Exception{
+        UQ_Library l=appService.getLibraryByKey(new ULKey(userId,libraryId));
+        Question q=l.getQuestion();
+        appService.deleteLibrary(l);
+        appService.deleteQuestion(q);
+        MongoClient mongoClient = new MongoClient();
+        DB database = mongoClient.getDB("wrong_set");
+        DBCollection collection = database.getCollection("questions");
+        DBObject demo = new BasicDBObject("question_id",q.getId());
+        collection.remove(demo);
+        database=null;
+        mongoClient.close();
+        return null;
+    }
     //in: libraryId(name/content/reference)
     public String updateQuestions() throws Exception{
         int owner=Integer.parseInt(request().getSession()
